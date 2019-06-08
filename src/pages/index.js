@@ -1,5 +1,7 @@
 import React from "react"
 import { Link } from "gatsby"
+import PropTypes from 'prop-types'
+import Helmet from 'react-helmet'
 
 import Layout from "../components/layout"
 import Image from "../components/image"
