@@ -1,13 +1,13 @@
 import React from "react"
-import { Link } from "gatsby"
-import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
+import { Link, graphql } from "gatsby"
+import PropTypes from "prop-types"
+import Helmet from "react-helmet"
 
 import Layout from "../components/layout"
 import Image from "../components/image"
 import SEO from "../components/seo"
 
-const IndexPage = () => (
+const IndexPage = ({ data }) => (
   <Layout>
     <SEO title="Home" />
     <h1>Hi people</h1>
@@ -17,7 +17,31 @@ const IndexPage = () => (
       <Image />
     </div>
     <Link to="/page-2/">Go to page 2</Link>
+    <h2>Index</h2>
+    {data.allMarkdownRemark.edges.map(post => (
+      <Link 
+        key={post.node.id} 
+        href={post.node.frontmatter.path}>
+        {post.node.frontmatter.title}
+      </Link>
+    ))}
   </Layout>
 )
+
+export const pageQuery = graphql`
+  query IndexQuery {
+    allMarkdownRemark(limit: 10) {
+      edges {
+        node {
+          id
+          frontmatter {
+            title
+            path
+          }
+        }
+      }
+    }
+  }
+`
 
 export default IndexPage
